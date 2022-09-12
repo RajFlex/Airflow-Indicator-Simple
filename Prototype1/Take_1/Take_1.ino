@@ -29,11 +29,12 @@
  // ------------------------------------Step III : Global Variables -------------------------
   char sensorPrintout[10];
   char setPressure_str[10];
-  const int buttonPin = 3; // "Set" button pin on pin 3  
+  const int setButtonPin = 3; // "Set" button pin on pin 3  
+  const int sounderButtonPin = 2; // Sounder On/Off button
   float setPressure = 0; // To store set pressure
   float setPressure_low; // To store low pressure 
   float setPressure_high; // To store low pressure 
-  float tol = 10; // % tolerance for alert
+  float tol = 20; // % tolerance for alert
   
  // ------------------------------------Step IV : Write void setup() -------------------------
  void setup() {
@@ -41,14 +42,6 @@
 
   // For MPRLS
   mpr.begin();
-//  pinMode(buttonPin, INPUT); // "Set" button pin as an input pin
-//  if (! mpr.begin()) {
-//    Serial.println("Failed to communicate with MPRLS sensor, check wiring?");
-//    while (1) {
-//      delay(10);
-//    }
-//  }
-  Serial.println("Found MPRLS sensor");
   
   //For Screen
   TFTscreen.begin(); 
@@ -61,8 +54,12 @@
 
 void loop() {
 
-  int buttonState;
-  buttonState = digitalRead(buttonPin);
+  int setButtonState;
+  setButtonState = digitalRead(setButtonPin);
+
+  int sounderButtonState;
+  sounderButtonState = digitalRead(sounderButtonPin);
+
 
 //  //generate a random color
 //  int redRandom = random(0, 255);
@@ -78,7 +75,7 @@ void loop() {
   TFTscreen.text(sensorPrintout, 6, 57); // print pressure output
   delay(250);
 
-  if(buttonState == HIGH) // Means that button is pressed
+  if(setButtonState == HIGH) // Means that button is pressed
   {
     TFTscreen.background(0,0,0);
     TFTscreen.text("Setting pressure ...",6,57);
@@ -102,33 +99,39 @@ void loop() {
 
   else if (pressure_hPa <= setPressure)// changed from "setPressure_low" to "setPressure" for testing
   {
-    TFTscreen.background(0,0,0);
+    if (sounderButtonState == 1) // Meaning that the sounder button is On
+    {
+          tone(6, 31, 1000/4); // Alarm note
+    }
+    TFTscreen.background(255,255,255);
+    TFTscreen.stroke(0, 0, 255); // Change colour to red
     TFTscreen.text("Low Pressure Alert!",6,12);
     TFTscreen.text("Now:",6,32);
     TFTscreen.text(sensorPrintout,6,52);
     TFTscreen.text("Set:",6,72);
     TFTscreen.text(setPressure_str,6,92);
-    for (int count=1; count<+3; count++)
-    {
-    tone(6, 31, 1000/4); // Random note
-    }
     delay(5000);
+    
   }
-  else if (pressure_hPa >= setPressure) // changed from "setPressure_high" to "setPressure" for testing
+//  else if (pressure_hPa >= setPressure) // changed from "setPressure_high" to "setPressure" for testing
+//  {
+//    TFTscreen.background(0,0,0);
+//    TFTscreen.text("High Pressure Alert!",6,12);
+//    TFTscreen.text("Now:",6,32);
+//    TFTscreen.text(sensorPrintout,6,52);
+//    TFTscreen.text("Set:",6,72);
+//    TFTscreen.text(setPressure_str,6,92);
+//    delay (5000);
+//  }
+  else 
   {
     TFTscreen.background(0,0,0);
-    TFTscreen.text("High Pressure Alert!",6,12);
+    TFTscreen.stroke(0, 255,0); // Change colour to green
+    TFTscreen.text("Pressure OK",6,12);
     TFTscreen.text("Now:",6,32);
     TFTscreen.text(sensorPrintout,6,52);
     TFTscreen.text("Set:",6,72);
     TFTscreen.text(setPressure_str,6,92);
-    delay (5000);
-  }
-  else 
-  {
-    TFTscreen.background(0,0,0);
-    TFTscreen.text("Pressure OK",6,57);
-    TFTscreen.text(sensorPrintout,6,77);
     delay(5000);
   }
   
