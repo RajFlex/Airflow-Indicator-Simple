@@ -34,7 +34,7 @@
   float setPressure = 0; // To store set pressure
   float setPressure_low; // To store low pressure 
   float setPressure_high; // To store low pressure 
-  float tol = 20; // % tolerance for alert
+  float tol = 2; // % tolerance for alert, should be 20
   
  // ------------------------------------Step IV : Write void setup() -------------------------
  void setup() {
@@ -97,7 +97,7 @@ void loop() {
     delay(2000);
   }
 
-  else if (pressure_hPa <= setPressure)// changed from "setPressure_low" to "setPressure" for testing
+  else if (pressure_hPa <= (setPressure_low))// changed from "setPressure_low" to "setPressure" for testing
   {
     if (sounderButtonState == 1) // Meaning that the sounder button is On
     {
