@@ -59,12 +59,6 @@ void loop() {
 
   int sounderButtonState;
   sounderButtonState = digitalRead(sounderButtonPin);
-
-
-//  //generate a random color
-//  int redRandom = random(0, 255);
-//  int greenRandom = random (0, 255);
-//  int blueRandom = random (0, 255);
   
   // set a random font color
   TFTscreen.stroke(255, 255, 255);
