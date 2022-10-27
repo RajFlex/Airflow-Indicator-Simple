@@ -1,5 +1,20 @@
 /*
  * Example code from the datasheet https://www.farnell.com/datasheets/3217178.pdf
+ * Components:
+ * Arduino Uno (Rev3)
+ * ABP pressure sensor (ABP2DANT150PGSA3XX)
+ * Capacitor 10uF (generic)
+ * TFT Screen (ST7735)
+ * Connections: 
+ * Uno,ABP,TFT
+ * 3.3V, VDD(2), 3Vo
+ * GND,GND(1),GND
+ * 10,SS(4),-
+ * 11,MOSI(5),-
+ * 12,MISO(3),-
+ * 13,SCLK(6),-
+ * SCL,-,SCL
+ * SDA,-,SDA
  */
 #include<Arduino.h>
 #include<SPI.h>
