@@ -14,9 +14,9 @@
   #define EOC_PIN    -1 
   Adafruit_MPRLS mpr = Adafruit_MPRLS(RESET_PIN, EOC_PIN); 
   
-  #define cs   4
-  #define dc   9
-  #define rst  8
+  #define cs   9//4
+  #define dc   8//9
+  #define rst  7//8
   TFT TFTscreen = TFT(cs, dc, rst);
 // ------------------------------------Step III : Global Variables -------------------------
 double press_counts = 0; // digital pressure reading [counts]
